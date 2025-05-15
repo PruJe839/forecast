@@ -36,10 +36,13 @@ async function getPlaceName(url){
     let jsondata = await response.json();
     return jsondata.display_name;
 }
+
 // Met Norway Vorhersage visualisieren
 async function showForecast(latlng) {
    // console.log("Popup erzeugen bei:", latlng); 
     let url = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${latlng.lat}&lon=${latlng.lng}`;
+    let osmurl = `https://nominatim.openstreetmap.org/reverse?lat=${latlng.lat}&lon=${latlng.lng}&zoom=15&format=jsonv2`;
+    let placeName = await getPlaceName(osmurl); 
     //console.log(url);
     let response = await fetch(url);
     let jsondata = await response.json();
@@ -50,6 +53,7 @@ async function showForecast(latlng) {
     let timestamp = new Date(jsondata.properties.meta.updated_at);
     let markup = `
         <h3>Wettervorhersage für ${timestamp.toLocaleString()}</h3>
+        <small>Ort: ${placeName}</small>
         <ul>
             <li>Luftdruck (hPa): ${details.air_pressure_at_sea_level}</li>
             <li>Lufttemperatur (°C): ${details.air_temperature}	</li>
