@@ -41,7 +41,9 @@ async function showForecast(latlng) {
 
     //Popup erzeugen
     let details = jsondata.properties.timeseries[0].data.instant.details;
+    let timestamp = new Date(jsondata.properties.meta.updated_at);
     let markup = `
+        <h3>Wettervorhersage für ${timestamp.toLocaleString()}</h3>
         <ul>
             <li>Luftdruck (hPa): ${details.air_pressure_at_sea_level}</li>
             <li>Lufttemperatur (°C): ${details.air_temperature}	</li>
