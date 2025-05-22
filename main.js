@@ -32,17 +32,6 @@ L.control.scale({
     imperial: false,
 }).addTo(map);
 
-// ECMF Windanimationmit Leaflet Veocity 
-async function loadwind(url){
-    let response = await fetch (url); 
-    let jsondata = await response.json();
-    L.velocityLayer({
-
-    }).addTo(overlays.wind);
-}
-loadwind("https://geographie.uibk.ac.at/data/ecmwf/data/wind-10u-10v-europe.json.")
-
-
 //Ort über OpenStreetMap reverse geocoding bestimmen 
 async function getPlaceName(url){
     let response = await fetch (url); 
@@ -114,12 +103,14 @@ map.fire("click", {
 })
 
 // Velocity Layer
+
 fetch('https://geographie.uibk.ac.at/data/ecmwf/data/wind-10u-10v-europe.json')
     .then(res => res.json())
     .then(data => {
         const velocityLayer = L.velocityLayer({
             data: data,
             displayValues: true,
+            lineWidth: 2,
             displayOptions: {
                 velocityType: "Global Wind",
                 position: "bottomleft",
